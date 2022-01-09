@@ -14,57 +14,34 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
+### [Redux Flow chart](https://i.ibb.co/VpdCXmB/ecdbd6fa-5433-42cb-ac71-21ecadf49142.jpg)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Added libraries needed like 
+```bash
+npm i redux react-redux redux-thunk redux-devtools-extension
+```
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+2. Created `store.js`
+   1. Used `combineReducers` to combine all the reducers.
+   2. Check Redux devtools to see all the reducers in the redux store
+3. Once the store is ready, to add store to the app, go to the root of the app `inndex.js`
+   1. Use `<Provider>` whereas `<App/>` should be wrapped inside the Provider. Provider injects the redux-store in react app
+   2. This is how with the help of `index.js`, whole redux store will be available to all the child components of the reactjs app.
+4. Now time to create actions from the views.
+   1. Create `fetchPosts.js` action
+   2. llly can create actions for post, delete posts, etc
+      1. USED DISPATCH() WHICH ALLOWS US TO UPDATE OUR APPLICATION STATE
+      2. Every dispatch() has 2 things - {type, payload}. Although payload is optional. type is action type(name) is mandatory
+      3. These action types (3 in `fetchPosts.js` ) are dispatched to the reducers i.e. `postsReducer.js`
+      4. When post if fetched via url in `fetchPosts.js`, the success response if dispatched to the reducer `postsReducer.js`
+5. `postsReducer.js` has reducer function which has access to the inital `state` and action.
+   1. Has done switch case implementation(can also do if-else)
+   2. The payload dispatched by `fetchPosts.js` is caught into `all` state in `postsReducer.js`
+   3. By default, the default state will be returned from the switch case.
+6. Store, reducer, action is ready.
+7. Dispatching the action `fetchPosts.js` in `App.js` inside `useEffect()` to show once[] whenever page reloads. 
+8. So `App.js` can be understood as "Views" which dipatched `fetchPosts` action.
+   1. Then in `fetchPosts.js`, the response is dispatched to the reducer `postsReducer.js`.
+   2. Reducer `postsReducer.js` then saves the dispatched response into state and state gets updated. The state is exported to store.
+   3. Store combines all reducers for `index.js` by importing them.
+   4. `index.js` gets whole store via `<Provider>`.
