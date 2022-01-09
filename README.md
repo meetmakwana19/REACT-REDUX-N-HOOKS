@@ -43,5 +43,8 @@ npm i redux react-redux redux-thunk redux-devtools-extension
 8. So `App.js` can be understood as "Views" which dipatched `fetchPosts` action.
    1. Then in `fetchPosts.js`, the response is dispatched to the reducer `postsReducer.js`.
    2. Reducer `postsReducer.js` then saves the dispatched response into state and state gets updated. The state is exported to store.
-   3. Store combines all reducers for `index.js` by importing them.
-   4. `index.js` gets whole store via `<Provider>`.
+   3. The change in states in the store gets directly reflected to the frontend views.
+   4. Store combines all reducers for `index.js` by importing them.
+   5. `index.js` gets whole store via `<Provider>`.
+   6. The `PostList` component uses `useSelectore` hook to access the redux store and use that data to render in itself
+   7. So whenever there is change in `PostList.js`, the component updates without affecting anything else in the `App.js`.
